@@ -21,7 +21,7 @@ public class Libro {
 
     private Double numeroDeDescargas;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinTable(
             name = "libro_autor",
             joinColumns = @JoinColumn(name = "libro_id"),
@@ -33,7 +33,7 @@ public class Libro {
 
     public Libro(DatosLibros datosLibros) {
         this.titulo = datosLibros.titulo();
-        this.idiomas = String.join(",", datosLibros.idiomas());// Convierte la lista a un String
+        this.idiomas = String.join(",", datosLibros.idiomas()); // Convierte la lista a un String
         this.numeroDeDescargas = datosLibros.numeroDescargas();
     }
 
