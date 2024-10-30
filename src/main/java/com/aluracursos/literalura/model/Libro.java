@@ -82,7 +82,6 @@ public class Libro {
                 Título: %s
                 Autor: %s
                 Idioma: %s
-                N° Descargas: %f
-                """.formatted(titulo, autores, idiomas, numeroDeDescargas) + "\n";
+                N° Descargas: %f""".formatted(titulo, autores, idiomas, numeroDeDescargas);// + "\n";
     }
 }
