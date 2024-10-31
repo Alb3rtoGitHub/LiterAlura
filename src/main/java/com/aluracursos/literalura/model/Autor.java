@@ -1,6 +1,5 @@
 package com.aluracursos.literalura.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
