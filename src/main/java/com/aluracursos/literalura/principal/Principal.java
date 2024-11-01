@@ -66,8 +66,6 @@ public class Principal {
                 continue;
             }
 
-//            opcion = obtenerOpcion();
-
             switch (opcion) {
                 case 1:
                     buscarLibroPorTitulo();
@@ -81,9 +79,9 @@ public class Principal {
                 case 4:
                     listarAutoresVivosEnAnio();
                     break;
-//                case 5:
-//                    listarLibrosPorIdioma();
-//                    break;
+                case 5:
+                    listarLibrosPorIdioma();
+                    break;
 
                 case 0:
                     System.out.println("Cerrando la aplicación...");
@@ -94,65 +92,6 @@ public class Principal {
 
         }
     }
-
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    //Para buscar todos los libros por titulo y registrar varios si existen
-//    private void buscarLibroPorTitulo() {
-//        System.out.print("Ingresa el nombre del libro que deseas buscar: ");
-//        var nombreLibro = sc.nextLine();
-//        Datos datosBusqueda = getDatosLibros(nombreLibro);
-//
-//        if (datosBusqueda != null) {
-//            datosBusqueda.listaResultados().stream()
-//                    .filter(datosLibros -> datosLibros.titulo().toUpperCase().contains(nombreLibro.toUpperCase()))
-//                    .forEach(datosLibros -> {
-//                        // Verificar si el libro ya existe en la base de datos
-//                        Optional<Libro> libroExistente = libroRepository.findByTitulo(datosLibros.titulo());
-//
-//                        if (libroExistente.isPresent()) {
-//                            System.out.println("El libro " + datosLibros.titulo().toUpperCase() + " ya esta registrado.");
-//                        } else {
-//                            // Registrar autores y libro si no existe
-//                            List<Autor> autores = new ArrayList<>();
-//
-//                            for (DatosAutor datosAutor : datosLibros.autor()) {
-//                                Optional<Autor> autorExistente = autorRepository.findByNombre(datosAutor.nombre());
-//                                Autor autor = autorExistente.orElseGet(() -> {
-//                                    Autor autorNuevo = new Autor();
-//                                    autorNuevo.setNombre(datosAutor.nombre());
-//                                    autorRepository.save(autorNuevo);
-//                                    return autorNuevo;
-//                                });
-//                                autores.add(autor);
-//                            }
-//
-//                            Libro libro = new Libro(datosLibros);
-//                            libro.setAutores(autores);
-//                            libroRepository.save(libro);
-//                            System.out.println("Libro '" + datosLibros.titulo() + "' guardado exitosamente.");
-//                        }
-//                    });
-//
-//        } else {
-//            System.out.println("No se encontraron libros con ese título.");
-//        }
-//
-//    }
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-//    //Para traer toda la lista y devolverla
-//    private Datos getDatosLibros(String nombreLibroBuscado) {
-//
-//        // Buscar libro en la API
-//        String json = consumoAPI.obtenerDatosLibros(URL_BASE + "?search=" + nombreLibroBuscado.replace(" ", "+"));
-//
-//        // Convertir JSON a un objeto Java
-//        Datos datosBusqueda = conversor.obtenerDatos(json, Datos.class);
-//
-//        return datosBusqueda;
-//    }
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     // Encuentra el primer titulo con el que se busca
     private void buscarLibroPorTitulo() {
@@ -209,93 +148,21 @@ public class Principal {
         );
 
         // Imprimir detalles del libro registrado
-        System.out.println("""
-                
-                **************************************************
-                *                      LIBRO                     *
-                **************************************************
-                Título: %s
-                Autor: %s
-                Idioma: %s
-                N° Descargas: %.2f""".formatted(
-                libroDTO.titulo(),
+        System.out.printf(
+                """
+                        
+                        **************************************************
+                        *                      LIBRO                     *
+                        **************************************************
+                        Título: %s
+                        Autor: %s
+                        Idioma: %s
+                        N° Descargas: %.2f%n""", libroDTO.titulo(),
                 libroDTO.autores().stream().map(AutorDTO::nombre).collect(Collectors.joining(", ")),
                 libroDTO.idiomas(),
                 libroDTO.numeroDeDescargas()
-        ));
+        );
         System.out.println("--------------------------------------------------");
-
-        // Primera idea luego optimizada con ayuda de AI
-        //        if (datosLibros != null) {
-//            // Verificar si el libro ya existe en la base de datos
-//            Optional<Libro> libroExistente = libroRepository.findByTitulo(datosLibros.titulo());
-//
-//            if (libroExistente.isPresent()) {
-//                System.out.println("El libro ya está registrado en el sistema.");
-//                return; // Salir del metodo si el libro ya existe
-//            }
-//
-//            // Si el libro no existe, procedemos con los autores
-//            List<Autor> autores = new ArrayList<>();
-//
-//            // Para cada autor en DatosLibros
-//            for (DatosAutor datosAutor : datosLibros.autor()) {
-//                // Buscar si el autor ya existe en la base de datos
-//                Optional<Autor> autorExistente = autorRepository.findByNombre(datosAutor.nombre());
-//
-//                // Si el autor existe, se usa o si no, crea uno nuevo
-////                Autor autor = autorExistente.orElseGet(() -> new Autor(datosAutor));
-//                Autor autor = autorExistente.orElseGet(() -> {
-//                    Autor autorNuevo = new Autor();
-//                    autorNuevo.setNombre(datosAutor.nombre());
-//                    autorNuevo.setFechaNacimiento(datosAutor.fechaNacimiento());
-//                    autorNuevo.setFechaFallecimiento(datosAutor.fechaFallecimiento());
-//                    autorRepository.save(autorNuevo);
-//                    return autorNuevo;
-//                });
-//
-//                // Agrega el autor a la lista de autores del libro
-//                autores.add(autor);
-//            }
-//
-//            // Crear el libro con los datos de datosLibros y añadir los autores
-//            Libro libro = new Libro(datosLibros);
-//            libro.setAutores(autores);
-//
-//            // Guardar el libro junto con sus autores en la base de datos
-//            libroRepository.save(libro);
-//
-//            LibroDTO libroDTO = new LibroDTO(
-//                    libro.getId(),
-//                    libro.getTitulo(),
-//                    libro.getAutores().stream().map(autor -> new AutorDTO(autor.getId(), autor.getNombre(), autor.getFechaNacimiento(), autor.getFechaFallecimiento()))
-//                    .collect(Collectors.toList()),
-//                    String.join(", ", libro.getIdiomas()),
-////                    libro.getIdiomas().toString(),
-//                    libro.getNumeroDeDescargas()
-//            );
-//            System.out.println("""
-//
-//                    **************************************************
-//                    *                      LIBRO                     *
-//                    **************************************************
-//                    Título: %s
-//                    Autor: %s
-//                    Idioma: %s
-//                    N° Descargas: %.2f""".formatted(
-//                    libroDTO.titulo(),
-//                    libroDTO.autores().stream().map(AutorDTO::nombre).collect(Collectors.joining(", ")),
-//                    libroDTO.idiomas(),
-//                    libroDTO.numeroDeDescargas()
-//            ));
-//            System.out.println("--------------------------------------------------");
-//        } else {
-//            System.out.println("""
-//
-//                    **************************************************
-//                    Libro no Encontrado
-//                    **************************************************""");
-//        }
     }
 
     private DatosLibros getDatosLibros() {
@@ -307,18 +174,6 @@ public class Principal {
         // Convierto json a un objeto Java
         var datosBusqueda = conversor.obtenerDatos(json, Datos.class);
         System.out.println(datosBusqueda);
-
-        // Primera idea luego optimizada con ayuda de AI
-//        Optional<DatosLibros> libroBuscado = datosBusqueda.listaResultados().stream()
-//                .filter(datosLibros -> datosLibros.titulo().toUpperCase().contains(nombreLibro.toUpperCase()))
-//                .findFirst();
-//
-//        if (libroBuscado.isPresent()) {
-//            System.out.println(libroBuscado.get());
-//            return libroBuscado.get();
-//        } else {
-//            return null;
-//        }
 
         // Encontrar el primer libro coincidente en la lista de resultados
         return datosBusqueda.listaResultados().stream()
@@ -338,37 +193,12 @@ public class Principal {
                     **************************************************""");
             return;
         }
-
-        for (Libro libro : libros) {
-            List<AutorDTO> autoresDTO = libro.getAutores().stream()
-                    .map(autor -> new AutorDTO(autor.getId(), autor.getNombre(), autor.getFechaNacimiento(), autor.getFechaFallecimiento()))
-                    .collect(Collectors.toList());
-
-            LibroDTO libroDTO = new LibroDTO(
-                    libro.getId(),
-                    libro.getTitulo(),
-                    autoresDTO,
-                    String.join(", ", libro.getIdiomas()),
-                    libro.getNumeroDeDescargas()
-            );
-
-            // Mostrar la información en el formato solicitado
-            System.out.println("""
-                    
-                    **************************************************
-                    *                      LIBRO                     *
-                    **************************************************
-                    Título: %s
-                    Autor: %s
-                    Idioma: %s
-                    N° Descargas: %.2f""".formatted(
-                    libroDTO.titulo(),
-                    libroDTO.autores().stream().map(AutorDTO::nombre).collect(Collectors.joining(", ")),
-                    libroDTO.idiomas(),
-                    libroDTO.numeroDeDescargas()
-            ));
-            System.out.println("--------------------------------------------------");
-        }
+        System.out.printf("""
+                
+                **************************************************
+                *            %d LIBROS REGISTRADOS               *
+                **************************************************%n""", libros.size());
+        mostrarLibros(libros);
     }
 
     private void listarAutoresRegistrados() {
@@ -382,65 +212,33 @@ public class Principal {
                     **************************************************""");
             return;
         }
-
-        for (Autor autor : autores) {
-            List<String> librosDelAutor = autor.getLibrosDelAutor().stream()
-                    .map(libro -> libro.getTitulo())
-                    .collect(Collectors.toList());
-
-            AutorDTO autorDTO = new AutorDTO(
-                    autor.getId(),
-                    autor.getNombre(),
-                    autor.getFechaNacimiento(),
-                    autor.getFechaFallecimiento()
-            );
-
-            // Mostrar la información en el formato solicitado
-            System.out.println("""
-                    
-                    **************************************************
-                    *                      AUTOR                     *
-                    **************************************************
-                    Autor: %s
-                    Fecha de Nacimiento: %s
-                    Fecha de Fallecimiento: %s
-                    Libros: %s""".formatted(
-                    autorDTO.nombre(),
-                    autorDTO.fechaNacimiento() != null ? autorDTO.fechaNacimiento() : "N/A",
-                    autorDTO.fechaFallecimiento() != null ? autorDTO.fechaFallecimiento() : "N/A",
-                    librosDelAutor
-            ));
-            System.out.println("--------------------------------------------------");
-        }
+        System.out.printf("""
+                
+                **************************************************
+                *            %d AUTORES REGISTRADOS              *
+                **************************************************%n""", autores.size());
+        mostrarAutores(autores);
     }
 
-//    private void listarAutoresVivosEnAnio() {
-//        var fechaValida = false;
-//        while (!fechaValida) {
-//            System.out.print("Ingresa el año vivo del Autor(es) que deseas buscar (4 dígitos): ");
-//            var anioVivo = sc.nextLine();
-//            try {
-//                var fecha = Integer.parseInt(anioVivo);
-//                List<Autor> autores = autorRepository.findByFechaFallecimientoAfter(String.valueOf(fecha));
-//                System.out.println(autores);
-//                fechaValida = true;
-//            } catch (NumberFormatException e) {
-//                System.out.println("Por favor ingrese un numero de año válido [entero ej: 1886].");
-//            }
-//
-//        }
-//    }
-
-
     private void listarAutoresVivosEnAnio() {
-        System.out.print("Ingresa el año para buscar autores vivos en ese período: ");
-        String anioEstaVivo = sc.nextLine();
+        var valorValido = false;
+        String anioEstaVivo;
+        do {
+            System.out.print("Ingresa el año para buscar autores vivos en ese período: ");
+            anioEstaVivo = sc.nextLine();
 
-        // Validar que el año ingresado tenga 4 dígitos numéricos
-        if (!anioEstaVivo.matches("\\d{4}")) {
-            System.out.println("Año no válido. Por favor, ingresa un año de 4 dígitos.");
-            return;
-        }
+            // Validar que el año ingresado tenga 4 dígitos numéricos
+            if (!anioEstaVivo.matches("\\d{4}")) {
+                System.out.println("""
+                        
+                        **************************************************
+                        Año no válido. Por favor, ingresa un año de 4 dígitos.
+                        **************************************************
+                        """);
+                continue;
+            }
+            valorValido = true;
+        } while (!valorValido);
 
         int anio = Integer.parseInt(anioEstaVivo);
 
@@ -452,44 +250,128 @@ public class Principal {
                     
                     **************************************************
                     No se encontraron autores vivos en el año especificado.
-                    **************************************************""");
+                    **************************************************
+                    """);
         } else {
-            System.out.println("""
+            System.out.printf("""
                     
                     **************************************************
-                    *            AUTORES VIVOS EN %d               *
-                    **************************************************""".formatted(anio));
-            for (Autor autor : autoresVivos) {
-                List<String> librosDelAutor = autor.getLibrosDelAutor().stream()
-                        .map(Libro::getTitulo)
-                        .collect(Collectors.toList());
+                    *            %d AUTORES VIVOS EN %d               *
+                    **************************************************%n""", autoresVivos.size(), anio);
+            mostrarAutores(autoresVivos);
+        }
+    }
 
-                AutorDTO autorDTO = new AutorDTO(
-                        autor.getId(),
-                        autor.getNombre(),
-                        autor.getFechaNacimiento(),
-                        autor.getFechaFallecimiento()
-                );
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>COPIAR AL TXT DESDE ACA 1/11/24<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    private void listarLibrosPorIdioma() {
+        String idiomaLibro;
+        do {
+            System.out.print("Ingresa el código del idioma del Libro a buscar [2 letras, ej: es]: ");
+            idiomaLibro = sc.nextLine().toLowerCase();
 
-                // Mostrar la información en el formato solicitado
+            // Validar que el idioma ingresado tenga dos letras y no incluya números
+            if (!idiomaLibro.matches("^[a-z]{2}$")) {
                 System.out.println("""
                         
                         **************************************************
-                        *                      AUTOR                     *
+                        Código de idioma no válido. Debe ser un código de 2 letras.
                         **************************************************
-                        Autor: %s
-                        Fecha de Nacimiento: %s
-                        Fecha de Fallecimiento: %s
-                        Libros: %s"""
-                        .formatted(
-                                autorDTO.nombre(),
-                                autorDTO.fechaNacimiento() != null ? autorDTO.fechaNacimiento() : "N/A",
-                                autorDTO.fechaFallecimiento() != null ? autorDTO.fechaFallecimiento() : "N/A",
-                                librosDelAutor
-                        ));
-                System.out.println("--------------------------------------------------");
+                        """);
+            }
+        } while (!idiomaLibro.matches("^[a-z]{2}$"));
+
+        // Lista de libros en idioma buscado
+        List<Libro> librosPorIdioma = libroRepository.findByIdiomasContaining(idiomaLibro);
+
+        if (librosPorIdioma.isEmpty()) {
+            System.out.println("""
+                    
+                    **************************************************
+                    No se encontraron Libros en el Idioma buscado.
+                    **************************************************
+                    """);
+        } else {
+            if (librosPorIdioma.size() == 1) {
+                System.out.printf("""
+                        
+                        **************************************************
+                        *           %d LIBRO EN EL IDIOMA '%s'            *
+                        **************************************************%n""", librosPorIdioma.size(), idiomaLibro.toUpperCase());
+                mostrarLibros(librosPorIdioma);
+            } else {
+                System.out.printf("""
+                        
+                        **************************************************
+                        *           %d LIBROS EN EL IDIOMA '%s'           *
+                        **************************************************%n""", librosPorIdioma.size(), idiomaLibro.toUpperCase());
+                mostrarLibros(librosPorIdioma);
             }
         }
     }
 
+    private void mostrarLibros(List<Libro> libroList) {
+        for (Libro libro : libroList) {
+            List<AutorDTO> autoresDTO = libro.getAutores().stream()
+                    .map(autor -> new AutorDTO(autor.getId(), autor.getNombre(), autor.getFechaNacimiento(), autor.getFechaFallecimiento()))
+                    .collect(Collectors.toList());
+
+            // Crear el DTO para mostrar solo la información necesaria
+            LibroDTO libroDTO = new LibroDTO(
+                    libro.getId(),
+                    libro.getTitulo(),
+                    autoresDTO,
+                    String.join(", ", libro.getIdiomas()),
+                    libro.getNumeroDeDescargas()
+            );
+
+            System.out.printf(
+                    """
+                            
+                            **************************************************
+                            *                      LIBRO                     *
+                            **************************************************
+                            Título: %s
+                            Autor: %s
+                            Idioma: %s
+                            N° Descargas: %.2f%n""", libroDTO.titulo(),
+                    libroDTO.autores().stream().map(AutorDTO::nombre).collect(Collectors.joining(", ")),
+                    String.join(", ", libro.getIdiomas()),
+                    libroDTO.numeroDeDescargas()
+            );
+            System.out.println("--------------------------------------------------");
+
+        }
+    }
+
+    private void mostrarAutores(List<Autor> autoresList) {
+        for (Autor autor : autoresList) {
+            List<String> librosDelAutor = autor.getLibrosDelAutor().stream()
+                    .map(Libro::getTitulo)
+                    .collect(Collectors.toList());
+
+            AutorDTO autorDTO = new AutorDTO(
+                    autor.getId(),
+                    autor.getNombre(),
+                    autor.getFechaNacimiento(),
+                    autor.getFechaFallecimiento()
+            );
+
+            // Mostrar la información en el formato solicitado
+            System.out.printf(
+                    """
+                            
+                            **************************************************
+                            *                      AUTOR                     *
+                            **************************************************
+                            Autor: %s
+                            Fecha de Nacimiento: %s
+                            Fecha de Fallecimiento: %s
+                            Libros: %s%n""", autorDTO.nombre(),
+                    autorDTO.fechaNacimiento() != null ? autorDTO.fechaNacimiento() : "N/A",
+                    autorDTO.fechaFallecimiento() != null ? autorDTO.fechaFallecimiento() : "N/A",
+                    librosDelAutor
+            );
+            System.out.println("--------------------------------------------------");
+        }
+    }
 }

@@ -18,6 +18,6 @@ public interface AutorRepository extends JpaRepository<Autor, Long> {
 
     List<Autor> findByFechaFallecimientoAfter(String fecha);
 
-    @EntityGraph(attributePaths = "librosDelAutor")// Hibernate intenta cargar de manera diferida (lazy loading) la lista de libros de cada autor (librosDelAutor), pero al no tener una sesión activa, falla al intentar inicializar la colección para permite cargar de forma inmediata las relaciones especificadas sin requerir una sesión abierta
+    @EntityGraph(attributePaths = "librosDelAutor")// Hibernate intenta cargar de manera diferida (lazy loading) la lista de libros de cada autor (librosDelAutor), pero al no tener una sesión activa, falla al intentar inicializar la colección, esto es para permitir cargar de forma inmediata las relaciones especificadas sin requerir una sesión abierta
     List<Autor> findByFechaNacimientoBeforeAndFechaFallecimientoAfterOrFechaFallecimientoIsNull(String s, String s1);
 }
