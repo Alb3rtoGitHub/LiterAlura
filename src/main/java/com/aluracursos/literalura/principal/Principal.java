@@ -8,7 +8,6 @@ import com.aluracursos.literalura.repository.LibroRepository;
 import com.aluracursos.literalura.service.ConsumoAPI;
 import com.aluracursos.literalura.service.ConvierteDatos;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -79,9 +78,9 @@ public class Principal {
                 case 3:
                     listarAutoresRegistrados();
                     break;
-//                case 4:
-//                    listarAutoresVivosEnAño();
-//                    break;
+                case 4:
+                    listarAutoresVivosEnAnio();
+                    break;
 //                case 5:
 //                    listarLibrosPorIdioma();
 //                    break;
@@ -409,10 +408,88 @@ public class Principal {
                     autorDTO.nombre(),
                     autorDTO.fechaNacimiento() != null ? autorDTO.fechaNacimiento() : "N/A",
                     autorDTO.fechaFallecimiento() != null ? autorDTO.fechaFallecimiento() : "N/A",
-                    String.join(", ", librosDelAutor)
+                    librosDelAutor
             ));
             System.out.println("--------------------------------------------------");
         }
-
     }
+
+//    private void listarAutoresVivosEnAnio() {
+//        var fechaValida = false;
+//        while (!fechaValida) {
+//            System.out.print("Ingresa el año vivo del Autor(es) que deseas buscar (4 dígitos): ");
+//            var anioVivo = sc.nextLine();
+//            try {
+//                var fecha = Integer.parseInt(anioVivo);
+//                List<Autor> autores = autorRepository.findByFechaFallecimientoAfter(String.valueOf(fecha));
+//                System.out.println(autores);
+//                fechaValida = true;
+//            } catch (NumberFormatException e) {
+//                System.out.println("Por favor ingrese un numero de año válido [entero ej: 1886].");
+//            }
+//
+//        }
+//    }
+
+
+    private void listarAutoresVivosEnAnio() {
+        System.out.print("Ingresa el año para buscar autores vivos en ese período: ");
+        String anioEstaVivo = sc.nextLine();
+
+        // Validar que el año ingresado tenga 4 dígitos numéricos
+        if (!anioEstaVivo.matches("\\d{4}")) {
+            System.out.println("Año no válido. Por favor, ingresa un año de 4 dígitos.");
+            return;
+        }
+
+        int anio = Integer.parseInt(anioEstaVivo);
+
+        // Obtener autores vivos en el año especificado
+        List<Autor> autoresVivos = autorRepository.findByFechaNacimientoBeforeAndFechaFallecimientoAfterOrFechaFallecimientoIsNull(String.valueOf(anio), String.valueOf(anio));
+
+        if (autoresVivos.isEmpty()) {
+            System.out.println("""
+                    
+                    **************************************************
+                    No se encontraron autores vivos en el año especificado.
+                    **************************************************""");
+        } else {
+            System.out.println("""
+                    
+                    **************************************************
+                    *            AUTORES VIVOS EN %d               *
+                    **************************************************""".formatted(anio));
+            for (Autor autor : autoresVivos) {
+                List<String> librosDelAutor = autor.getLibrosDelAutor().stream()
+                        .map(Libro::getTitulo)
+                        .collect(Collectors.toList());
+
+                AutorDTO autorDTO = new AutorDTO(
+                        autor.getId(),
+                        autor.getNombre(),
+                        autor.getFechaNacimiento(),
+                        autor.getFechaFallecimiento()
+                );
+
+                // Mostrar la información en el formato solicitado
+                System.out.println("""
+                        
+                        **************************************************
+                        *                      AUTOR                     *
+                        **************************************************
+                        Autor: %s
+                        Fecha de Nacimiento: %s
+                        Fecha de Fallecimiento: %s
+                        Libros: %s"""
+                        .formatted(
+                                autorDTO.nombre(),
+                                autorDTO.fechaNacimiento() != null ? autorDTO.fechaNacimiento() : "N/A",
+                                autorDTO.fechaFallecimiento() != null ? autorDTO.fechaFallecimiento() : "N/A",
+                                librosDelAutor
+                        ));
+                System.out.println("--------------------------------------------------");
+            }
+        }
+    }
+
 }
