@@ -243,7 +243,7 @@ public class Principal {
         int anio = Integer.parseInt(anioEstaVivo);
 
         // Obtener autores vivos en el año especificado
-        List<Autor> autoresVivos = autorRepository.findByFechaNacimientoBeforeAndFechaFallecimientoAfterOrFechaFallecimientoIsNull(String.valueOf(anio), String.valueOf(anio));
+        List<Autor> autoresVivos = autorRepository.findByFechaNacimientoBeforeAndFechaFallecimientoAfter(String.valueOf(anio), String.valueOf(anio));
 
         if (autoresVivos.isEmpty()) {
             System.out.println("""
