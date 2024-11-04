@@ -17,5 +17,5 @@ public interface AutorRepository extends JpaRepository<Autor, Long> {
     List<Autor> findAllWithLibros();
 
     @EntityGraph(attributePaths = "librosDelAutor")// Hibernate intenta cargar de manera diferida (lazy loading) la lista de libros de cada autor (librosDelAutor), pero al no tener una sesión activa, falla al intentar inicializar la colección, esto es para permitir cargar de forma inmediata las relaciones especificadas sin requerir una sesión abierta
-    List<Autor> findByFechaNacimientoBeforeAndFechaFallecimientoAfter(String s, String s1);
+    List<Autor> findByFechaNacimientoBeforeAndFechaFallecimientoAfterOrFechaFallecimientoIsNullAndFechaNacimientoIsNotNull(String fechaNacimiento, String fechaFallecimiento);
 }

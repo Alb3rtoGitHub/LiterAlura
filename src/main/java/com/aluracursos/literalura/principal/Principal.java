@@ -8,9 +8,8 @@ import com.aluracursos.literalura.repository.LibroRepository;
 import com.aluracursos.literalura.service.ConsumoAPI;
 import com.aluracursos.literalura.service.ConvierteDatos;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Principal {
@@ -53,7 +52,10 @@ public class Principal {
                     3 - Listar Autores Registrados
                     4 - Listar Autores vivos en un determinado año
                     5 - Listar Libros por Idioma
-                    
+                    6 - Buscar Autor por nombre
+                    7 - Listar Autores por fechas
+                    8 - Top 10 Libros mas descargados
+                    9 - Estadísticas
                     0 - Salir
                     """;
             System.out.println(menu);
@@ -82,6 +84,12 @@ public class Principal {
                 case 5:
                     listarLibrosPorIdioma();
                     break;
+                case 8:
+                    top10LibrosMasDescargados();
+                    break;
+                case 9:
+                    estadisticas();
+                    break;
 
                 case 0:
                     System.out.println("Cerrando la aplicación...");
@@ -92,6 +100,7 @@ public class Principal {
 
         }
     }
+
 
     // Encuentra el primer titulo con el que se busca
     private void buscarLibroPorTitulo() {
@@ -163,6 +172,7 @@ public class Principal {
                 libroDTO.numeroDeDescargas()
         );
         System.out.println("--------------------------------------------------");
+        pausa();
     }
 
     private DatosLibros getDatosLibros() {
@@ -182,6 +192,11 @@ public class Principal {
                 .orElse(null); // Devolver null si no se encuentra el libro
     }
 
+    private void pausa() {
+        System.out.println("\nPresiona la tecla 'ENTER' para continuar...");
+        sc.nextLine();
+    }
+
     private void listarLibrosRegistrados() {
         libros = libroRepository.findAllWithAutores();
 
@@ -199,6 +214,7 @@ public class Principal {
                 *            %d LIBROS REGISTRADOS               *
                 **************************************************%n""", libros.size());
         mostrarLibros(libros);
+        pausa();
     }
 
     private void listarAutoresRegistrados() {
@@ -218,6 +234,7 @@ public class Principal {
                 *            %d AUTORES REGISTRADOS              *
                 **************************************************%n""", autores.size());
         mostrarAutores(autores);
+        pausa();
     }
 
     private void listarAutoresVivosEnAnio() {
@@ -243,7 +260,19 @@ public class Principal {
         int anio = Integer.parseInt(anioEstaVivo);
 
         // Obtener autores vivos en el año especificado
-        List<Autor> autoresVivos = autorRepository.findByFechaNacimientoBeforeAndFechaFallecimientoAfter(String.valueOf(anio), String.valueOf(anio));
+        List<Autor> autoresVivos = autorRepository.findByFechaNacimientoBeforeAndFechaFallecimientoAfterOrFechaFallecimientoIsNullAndFechaNacimientoIsNotNull(String.valueOf(anio), String.valueOf(anio));
+
+        // Filtrar autores con fechaNacimiento mayor a 100 años desde el año actual si fechaFallecimiento es null
+        int anioActual = java.time.Year.now().getValue();
+
+        autoresVivos = autoresVivos.stream()
+                .filter(autor -> {
+                    if (autor.getFechaFallecimiento() == null) {
+                        int anioNacimiento = Integer.parseInt(autor.getFechaNacimiento());
+                        return anioActual - anioNacimiento <= 100;
+                    }
+                    return true;
+                }).collect(Collectors.toList());
 
         if (autoresVivos.isEmpty()) {
             System.out.println("""
@@ -259,13 +288,26 @@ public class Principal {
                     *            %d AUTORES VIVOS EN %d               *
                     **************************************************%n""", autoresVivos.size(), anio);
             mostrarAutores(autoresVivos);
+            pausa();
         }
     }
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>COPIAR AL TXT DESDE ACA 1/11/24<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     private void listarLibrosPorIdioma() {
+        var menuIdiomas = """
+                
+                **************************************************
+                *               LIBROS POR IDIOMA                *
+                **************************************************
+                es - Español                it - Italiano
+                en - Inglés                 ja - Japonés
+                fr - Francés                pt - Portugués
+                ru - Ruso                   zh - Chino Mandarín
+                de - Alemán                 ar - Árabe
+                """;
         String idiomaLibro;
         do {
+            System.out.println(menuIdiomas);
             System.out.print("Ingresa el código del idioma del Libro a buscar [2 letras, ej: es]: ");
             idiomaLibro = sc.nextLine().toLowerCase();
 
@@ -298,6 +340,7 @@ public class Principal {
                         *           %d LIBRO EN EL IDIOMA '%s'            *
                         **************************************************%n""", librosPorIdioma.size(), idiomaLibro.toUpperCase());
                 mostrarLibros(librosPorIdioma);
+                pausa();
             } else {
                 System.out.printf("""
                         
@@ -305,6 +348,7 @@ public class Principal {
                         *           %d LIBROS EN EL IDIOMA '%s'           *
                         **************************************************%n""", librosPorIdioma.size(), idiomaLibro.toUpperCase());
                 mostrarLibros(librosPorIdioma);
+                pausa();
             }
         }
     }
@@ -374,4 +418,93 @@ public class Principal {
             System.out.println("--------------------------------------------------");
         }
     }
+
+    private void top10LibrosMasDescargados() {
+        List<Libro> top10List = libroRepository.findTop10ByOrderByNumeroDeDescargasDesc();
+        System.out.println("""
+            
+            **************************************************
+            *          TOP 10 LIBROS MAS DESCARGADOS         *
+            **************************************************
+            """);
+        top10List.forEach((libro -> System.out.printf("Título: %s - Descargas: %.0f%n", libro.getTitulo().toUpperCase(), libro.getNumeroDeDescargas())));
+        pausa();
+    }
+
+    private void estadisticas() {
+
+        System.out.println("""
+                
+                **************************************************
+                *             ESTADÍSTICAS GENERALES             *
+                **************************************************
+                """);
+        mostrarEstadisticasDescargasLibros();
+        mostrarEstadisticasEdadesAutores();
+        pausa();
+    }
+
+    private void mostrarEstadisticasDescargasLibros() {
+        DoubleSummaryStatistics estadisticasDescargas = libroRepository.findAllWithAutores().stream()
+                .mapToDouble(Libro::getNumeroDeDescargas)
+                .summaryStatistics();
+
+        System.out.println("""
+                
+                **************************************************
+                *      ESTADÍSTICAS DE DESCARGAS DE LIBROS       *
+                **************************************************
+                """);
+        System.out.printf("Total de libros: %d%n", estadisticasDescargas.getCount());
+        System.out.printf("Descargas totales: %.2f%n", estadisticasDescargas.getSum());
+        System.out.printf("Promedio de descargas por libro: %.2f%n", estadisticasDescargas.getAverage());
+        System.out.printf("Descargas máximas en un libro: %.2f%n", estadisticasDescargas.getMax());
+        System.out.printf("Descargas mínimas en un libro: %.2f%n", estadisticasDescargas.getMin());
+        System.out.println("--------------------------------------------------");
+    }
+
+    private void mostrarEstadisticasEdadesAutores() {
+        LocalDate fechaActual = LocalDate.now();
+
+        DoubleSummaryStatistics estadisticasEdad = autorRepository.findAll().stream()
+                .filter(autor -> autor.getFechaNacimiento() != null) // filtro si tiene fecha de nacimiento
+                .filter(autor -> {
+                    // Si el autor no tiene fecha de fallecimiento, calculamos su edad actual
+                    if (autor.getFechaFallecimiento() == null) {
+                        int anioNacimiento = Integer.parseInt(autor.getFechaNacimiento().substring(0, 4));
+                        int anioActual = fechaActual.getYear();
+                        int edad = anioActual - anioNacimiento;
+                        return edad < 100;
+                    }
+                    // incluimos autores con fecha fallecimiento
+                    return true;
+                })
+                .mapToDouble(autor -> {
+                    // Obtenemos el año de nacimiento
+                    int anioNacimiento = Integer.parseInt(autor.getFechaNacimiento().substring(0, 4));
+
+                    // Vemos si tiene fecha fallecimiento y calculamos la edad al fallecer
+                    if (autor.getFechaFallecimiento() != null) {
+                        int anioFallecimiento = Integer.parseInt(autor.getFechaFallecimiento().substring(0, 4));
+                        return anioFallecimiento - anioNacimiento;
+                    } else {
+                        // si no tiene fecha fallecimiento calculamos edad actual
+                        int anioActual = fechaActual.getYear();
+                            return anioActual - anioNacimiento;
+                    }
+                }).summaryStatistics();
+
+        System.out.println("""
+                
+                **************************************************
+                *          ESTADÍSTICAS DE EDAD AUTORES          *
+                **************************************************
+                """);
+        System.out.printf("Total de autores: %d%n", estadisticasEdad.getCount());
+        System.out.printf("Edad promedio: %.2f años%n", estadisticasEdad.getAverage());
+        System.out.printf("Edad máxima: %.2f años%n", estadisticasEdad.getMax());
+        System.out.printf("Edad mínima: %.2f años%n", estadisticasEdad.getMin());
+        System.out.println("--------------------------------------------------");
+    }
+
 }
