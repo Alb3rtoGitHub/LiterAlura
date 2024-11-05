@@ -9,6 +9,7 @@ import com.aluracursos.literalura.service.ConsumoAPI;
 import com.aluracursos.literalura.service.ConvierteDatos;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -53,7 +54,7 @@ public class Principal {
                     4 - Listar Autores vivos en un determinado año
                     5 - Listar Libros por Idioma
                     6 - Buscar Autor por nombre
-                    7 - Listar Autores por fechas
+                    7 - Listar Autores por rango de años de Nacimiento
                     8 - Top 10 Libros mas descargados
                     9 - Estadísticas
                     0 - Salir
@@ -83,6 +84,12 @@ public class Principal {
                     break;
                 case 5:
                     listarLibrosPorIdioma();
+                    break;
+                case 6:
+                    buscarAutorPorNombre();
+                    break;
+                case 7:
+                    listarAutoresPorRangoNacimiento();
                     break;
                 case 8:
                     top10LibrosMasDescargados();
@@ -192,11 +199,6 @@ public class Principal {
                 .orElse(null); // Devolver null si no se encuentra el libro
     }
 
-    private void pausa() {
-        System.out.println("\nPresiona la tecla 'ENTER' para continuar...");
-        sc.nextLine();
-    }
-
     private void listarLibrosRegistrados() {
         libros = libroRepository.findAllWithAutores();
 
@@ -245,13 +247,8 @@ public class Principal {
             anioEstaVivo = sc.nextLine();
 
             // Validar que el año ingresado tenga 4 dígitos numéricos
-            if (!anioEstaVivo.matches("\\d{4}")) {
-                System.out.println("""
-                        
-                        **************************************************
-                        Año no válido. Por favor, ingresa un año de 4 dígitos.
-                        **************************************************
-                        """);
+            if (!validarAnio4Digitos(anioEstaVivo)) {
+                anioNoValido();
                 continue;
             }
             valorValido = true;
@@ -263,7 +260,7 @@ public class Principal {
         List<Autor> autoresVivos = autorRepository.findByFechaNacimientoBeforeAndFechaFallecimientoAfterOrFechaFallecimientoIsNullAndFechaNacimientoIsNotNull(String.valueOf(anio), String.valueOf(anio));
 
         // Filtrar autores con fechaNacimiento mayor a 100 años desde el año actual si fechaFallecimiento es null
-        int anioActual = java.time.Year.now().getValue();
+        int anioActual = Year.now().getValue();
 
         autoresVivos = autoresVivos.stream()
                 .filter(autor -> {
@@ -339,17 +336,15 @@ public class Principal {
                         **************************************************
                         *           %d LIBRO EN EL IDIOMA '%s'            *
                         **************************************************%n""", librosPorIdioma.size(), idiomaLibro.toUpperCase());
-                mostrarLibros(librosPorIdioma);
-                pausa();
             } else {
                 System.out.printf("""
                         
                         **************************************************
                         *           %d LIBROS EN EL IDIOMA '%s'           *
                         **************************************************%n""", librosPorIdioma.size(), idiomaLibro.toUpperCase());
-                mostrarLibros(librosPorIdioma);
-                pausa();
             }
+            mostrarLibros(librosPorIdioma);
+            pausa();
         }
     }
 
@@ -419,14 +414,96 @@ public class Principal {
         }
     }
 
+    private void buscarAutorPorNombre() {
+        System.out.print("Ingresa el Nombre o parte del Nombre del Autor a buscar: ");
+        var nombreAutor = sc.nextLine().toLowerCase();
+
+        // Realizar la búsqueda en la base de datos
+        List<Autor> autoresBuscados = autorRepository.findByNombreContainingIgnoreCase(nombreAutor);
+
+        System.out.printf("""
+                
+                **************************************************
+                *          BÚSQUEDA DE AUTOR POR NOMBRE:         *
+                                  '%s'
+                **************************************************""", nombreAutor);
+        if (autoresBuscados.isEmpty()) {
+            System.out.println("""
+                    
+                    **************************************************
+                    No se encontraron Autores con el nombre especificado.
+                    **************************************************
+                    """);
+        } else {
+            mostrarAutores(autoresBuscados);
+            pausa();
+        }
+
+    }
+
+    private void listarAutoresPorRangoNacimiento() {
+        String anioInicio;
+        String anioFin;
+
+        while (true) {
+            System.out.print("Ingrese el año de inicio del rango: ");
+            anioInicio = sc.nextLine();
+
+            if (!validarAnio4Digitos(anioInicio)) {
+                anioNoValido();
+                continue;
+            }
+            System.out.print("Ingrese el año de fin del rango: ");
+            anioFin = sc.nextLine();
+
+            if (!validarAnio4Digitos(anioFin)) {
+                anioNoValido();
+                continue;
+            }
+
+            // Verificación de que el año de inicio sea menor o igual que el de fin
+            if (Integer.parseInt(anioInicio) > Integer.parseInt(anioFin)) {
+                System.out.println("""
+                        
+                        **************************************************
+                        El año de inicio no puede ser mayor que el año de fin.
+                        Por favor, ingresa un rango válido.
+                        **************************************************
+                        """);
+                continue;
+            }
+            break;
+        }
+
+
+        List<Autor> autoresEnRango = autorRepository.findByFechaNacimientoBetween(anioInicio, anioFin);
+        System.out.printf("""
+                
+                **************************************************
+                *   BÚSQUEDA DE AUTOR POR RANGO DE NACIMIENTO:   *
+                             ENTRE '%s' Y '%s'
+                **************************************************""", anioInicio, anioFin);
+        if (autoresEnRango.isEmpty()) {
+            System.out.println("""
+                    
+                    **************************************************
+                    No se encontraron Autores en el Rango buscado.
+                    **************************************************
+                    """);
+        } else {
+            mostrarAutores(autoresEnRango);
+            pausa();
+        }
+    }
+
     private void top10LibrosMasDescargados() {
         List<Libro> top10List = libroRepository.findTop10ByOrderByNumeroDeDescargasDesc();
         System.out.println("""
-            
-            **************************************************
-            *          TOP 10 LIBROS MAS DESCARGADOS         *
-            **************************************************
-            """);
+                
+                **************************************************
+                *          TOP 10 LIBROS MAS DESCARGADOS         *
+                **************************************************
+                """);
         top10List.forEach((libro -> System.out.printf("Título: %s - Descargas: %.0f%n", libro.getTitulo().toUpperCase(), libro.getNumeroDeDescargas())));
         pausa();
     }
@@ -490,7 +567,7 @@ public class Principal {
                     } else {
                         // si no tiene fecha fallecimiento calculamos edad actual
                         int anioActual = fechaActual.getYear();
-                            return anioActual - anioNacimiento;
+                        return anioActual - anioNacimiento;
                     }
                 }).summaryStatistics();
 
@@ -507,4 +584,22 @@ public class Principal {
         System.out.println("--------------------------------------------------");
     }
 
+    private boolean validarAnio4Digitos(String anio) {
+        // Validar que el año ingresado tenga 4 dígitos numéricos
+        return anio.matches("\\d{4}");
+    }
+
+    private void pausa() {
+        System.out.println("\nPresione 'Enter' para continuar...");
+        sc.nextLine();
+    }
+
+    private void anioNoValido() {
+        System.out.println("""
+                
+                **************************************************
+                Año no válido. Por favor, ingresa un año de 4 dígitos.
+                **************************************************
+                """);
+    }
 }
