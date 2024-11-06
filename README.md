@@ -1,10 +1,13 @@
-# 📖✒️ LiterAlura
+<p align="center">
+<img src="LiterAlura.png" alt="LiterAlura Banner">
+</p>
 
 **LiterAlura** es una aplicación en Java para gestionar y consultar un catálogo de autores y libros. La aplicación permite realizar **búsquedas avanzadas, generar estadísticas detalladas** y explorar una base de datos con autores y libros. Su objetivo es brindar una experiencia enriquecedora en la administración y consulta de contenido literario.
 
-La aplicación utiliza la API de [Gutendex](https://gutendex.com/ "API para libros de dominio público") 📜, para obtener datos de libros de dominio público, maneja respuestas en formato JSON, y permite persistir estos datos en una base de datos PostgreSQL. Los resultados se filtran y muestran en la consola de manera interactiva.
+La aplicación utiliza la API de [Gutendex](https://gutendex.com/ "API para libros de dominio público") 📜, para obtener datos de libros de dominio público, maneja respuestas en formato JSON, y permite persistir estos datos en una base de datos PostgreSQL, desde la que luego podemos realizar diversas consultas para mostrar todo lo relacionado a Libros y Autores.
 
-![LiterAlura Banner](ruta/a/imagen-banner.png)
+Los resultados se filtran y muestran en la consola de manera interactiva.
+
 
 ***
 ## 📑 Tabla de Contenidos
