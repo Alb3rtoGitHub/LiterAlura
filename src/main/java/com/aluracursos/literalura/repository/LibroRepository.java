@@ -19,6 +19,5 @@ public interface LibroRepository extends JpaRepository<Libro, Long> {
     @EntityGraph(attributePaths = "autores")
     List<Libro> findByIdiomasContaining(String idiomas);
 
-    @EntityGraph(attributePaths = "autores")
     List<Libro> findTop10ByOrderByNumeroDeDescargasDesc();
 }

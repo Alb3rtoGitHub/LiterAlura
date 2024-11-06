@@ -29,15 +29,6 @@ public class Principal {
     }
 
     public void muestraElMenu() {
-
-        // ELIMINAR LUEGO >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        String json = consumoAPI.obtenerDatosLibros(URL_BASE);
-        System.out.println(json);
-
-        var data = conversor.obtenerDatos(json, Datos.class);
-        System.out.println(data);
-        // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
         var opcion = -1;
 
         while (opcion != 0) {
@@ -99,7 +90,12 @@ public class Principal {
                     break;
 
                 case 0:
-                    System.out.println("Cerrando la aplicación...");
+                    System.out.println("""
+                    
+                    **************************************************
+                    Cerrando la aplicación...
+                    **************************************************
+                    """);
                     break;
                 default:
                     System.out.println("Opción inválida");
@@ -119,6 +115,7 @@ public class Principal {
                     **************************************************
                     Libro no Encontrado.
                     **************************************************""");
+            pausa();
             return;
         }
 
@@ -130,6 +127,7 @@ public class Principal {
                     **************************************************
                     El libro ya está registrado en el sistema.
                     **************************************************""");
+            pausa();
             return;
         }
 
@@ -187,10 +185,8 @@ public class Principal {
         var nombreLibro = sc.nextLine();
         // Buscar libro en la API
         String json = consumoAPI.obtenerDatosLibros(URL_BASE + "?search=" + nombreLibro.replace(" ", "+")); // me trae un json
-        System.out.println(json); // SOLO VER LUEGO>BORRAR>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         // Convierto json a un objeto Java
         var datosBusqueda = conversor.obtenerDatos(json, Datos.class);
-        System.out.println(datosBusqueda);
 
         // Encontrar el primer libro coincidente en la lista de resultados
         return datosBusqueda.listaResultados().stream()
@@ -208,6 +204,7 @@ public class Principal {
                     **************************************************
                     No hay Libros registrados en el sistema.
                     **************************************************""");
+            pausa();
             return;
         }
         System.out.printf("""
@@ -228,6 +225,7 @@ public class Principal {
                     **************************************************
                     No hay Autores registrados en el sistema.
                     **************************************************""");
+            pausa();
             return;
         }
         System.out.printf("""
@@ -275,9 +273,9 @@ public class Principal {
             System.out.println("""
                     
                     **************************************************
-                    No se encontraron autores vivos en el año especificado.
-                    **************************************************
-                    """);
+                    No se encontraron autores vivos en el año buscado.
+                    **************************************************""");
+            pausa();
         } else {
             System.out.printf("""
                     
@@ -314,8 +312,7 @@ public class Principal {
                         
                         **************************************************
                         Código de idioma no válido. Debe ser un código de 2 letras.
-                        **************************************************
-                        """);
+                        **************************************************""");
             }
         } while (!idiomaLibro.matches("^[a-z]{2}$"));
 
@@ -327,8 +324,8 @@ public class Principal {
                     
                     **************************************************
                     No se encontraron Libros en el Idioma buscado.
-                    **************************************************
-                    """);
+                    **************************************************""");
+            pausa();
         } else {
             if (librosPorIdioma.size() == 1) {
                 System.out.printf("""
@@ -426,14 +423,14 @@ public class Principal {
                 **************************************************
                 *          BÚSQUEDA DE AUTOR POR NOMBRE:         *
                                   '%s'
-                **************************************************""", nombreAutor);
+                **************************************************%n""", nombreAutor);
         if (autoresBuscados.isEmpty()) {
             System.out.println("""
                     
                     **************************************************
-                    No se encontraron Autores con el nombre especificado.
-                    **************************************************
-                    """);
+                    No se encontraron Autores con el nombre buscado.
+                    **************************************************""");
+            pausa();
         } else {
             mostrarAutores(autoresBuscados);
             pausa();
@@ -482,14 +479,14 @@ public class Principal {
                 **************************************************
                 *   BÚSQUEDA DE AUTOR POR RANGO DE NACIMIENTO:   *
                              ENTRE '%s' Y '%s'
-                **************************************************""", anioInicio, anioFin);
+                **************************************************%n""", anioInicio, anioFin);
         if (autoresEnRango.isEmpty()) {
             System.out.println("""
                     
                     **************************************************
                     No se encontraron Autores en el Rango buscado.
-                    **************************************************
-                    """);
+                    **************************************************""");
+            pausa();
         } else {
             mostrarAutores(autoresEnRango);
             pausa();
@@ -514,15 +511,14 @@ public class Principal {
                 
                 **************************************************
                 *             ESTADÍSTICAS GENERALES             *
-                **************************************************
-                """);
+                **************************************************""");
         mostrarEstadisticasDescargasLibros();
         mostrarEstadisticasEdadesAutores();
         pausa();
     }
 
     private void mostrarEstadisticasDescargasLibros() {
-        DoubleSummaryStatistics estadisticasDescargas = libroRepository.findAllWithAutores().stream()
+        DoubleSummaryStatistics estadisticasDescargas = libroRepository.findAll().stream()
                 .mapToDouble(Libro::getNumeroDeDescargas)
                 .summaryStatistics();
 
@@ -534,7 +530,6 @@ public class Principal {
                 """);
         System.out.printf("Total de libros: %d%n", estadisticasDescargas.getCount());
         System.out.printf("Descargas totales: %.2f%n", estadisticasDescargas.getSum());
-        System.out.printf("Promedio de descargas por libro: %.2f%n", estadisticasDescargas.getAverage());
         System.out.printf("Descargas máximas en un libro: %.2f%n", estadisticasDescargas.getMax());
         System.out.printf("Descargas mínimas en un libro: %.2f%n", estadisticasDescargas.getMin());
         System.out.println("--------------------------------------------------");
