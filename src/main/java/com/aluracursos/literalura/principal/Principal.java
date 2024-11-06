@@ -125,8 +125,36 @@ public class Principal {
             System.out.println("""
                     
                     **************************************************
-                    El libro ya está registrado en el sistema.
+                    El libro estaba registrado en el sistema.
                     **************************************************""");
+
+            // El libro existe en la base de datos y lo muestro:
+            // Crear y mostrar DTO del libro guardado
+            LibroDTO libroDTO = new LibroDTO(
+                    libroExistente.get().getId(),
+                    libroExistente.get().getTitulo(),
+                    libroExistente.get().getAutores().stream().map(autor -> new AutorDTO(autor.getId(), autor.getNombre(), autor.getFechaNacimiento(), autor.getFechaFallecimiento()))
+                            .collect(Collectors.toList()),
+                    String.join(", ", libroExistente.get().getIdiomas()),
+                    libroExistente.get().getNumeroDeDescargas()
+            );
+
+            // Imprimir detalles del libro ya registrado
+            System.out.printf(
+                    """
+                            
+                            **************************************************
+                            *                      LIBRO                     *
+                            **************************************************
+                            Título: %s
+                            Autor: %s
+                            Idioma: %s
+                            N° Descargas: %.2f%n""", libroDTO.titulo(),
+                    libroDTO.autores().stream().map(AutorDTO::nombre).collect(Collectors.joining(", ")),
+                    libroDTO.idiomas(),
+                    libroDTO.numeroDeDescargas()
+            );
+            System.out.println("--------------------------------------------------");
             pausa();
             return;
         }

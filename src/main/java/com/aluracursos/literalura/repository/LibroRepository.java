@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface LibroRepository extends JpaRepository<Libro, Long> {
+    @EntityGraph(attributePaths = "autores")
     Optional<Libro> findByTitulo(String titulo);
 
     @Query("SELECT l FROM Libro l LEFT JOIN FETCH l.autores")
