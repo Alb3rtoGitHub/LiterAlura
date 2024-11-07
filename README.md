@@ -8,9 +8,8 @@ La aplicación utiliza la API de [Gutendex](https://gutendex.com/ "API para libr
 
 Los resultados se filtran y muestran en la consola de manera interactiva.
 
-
-***
-## 📑 Tabla de Contenidos
+##
+## 📑Tabla de Contenidos
 - [Características](#características)
 - [Tecnologías Utilizadas](#tecnologías-utilizadas)
 - [Instalación y Configuración](#instalación-y-configuración)
@@ -22,33 +21,33 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
     - [Top 10 Libros Más Descargados](#top-10-libros-más-descargados)
     - [Filtros y Validaciones](#filtros-y-validaciones)
 - [Autor](#autor-alberto-vallecillo)
-***
-## ✨ Características
+##
+## ✨Características
 
-- 🔍**Búsqueda y Registro de Libros por Título**: Realiza consultas a la API de [Gutendex](https://gutendex.com/ "API para libros de dominio público") 📜 para buscar libros por título y los almacena en la base de datos.
+- 🔍**Búsqueda y Registro de Libros por Título**: Consulta a la API de [Gutendex](https://gutendex.com/ "API para libros de dominio público") 📜 para buscar libros por título. Al encontrar un libro, lo registra y almacena en la base de datos, evitando duplicados al verificar previamente su existencia. Si el libro ya está registrado, muestra su información junto con un mensaje indicando que ya estaba en el catálogo.
 - 📚**Búsqueda de Libros por Título y por Idioma**: Busca libros usando consultas directas en la base de datos. Filtra libros por idioma en la base de datos. Los idiomas deben ingresarse en formato ISO 639-1 (ej., es para español)..
 - ✒️**Búsqueda de Autores por Nombre**: Encuentra autores rápidamente mediante consultas en la base de datos.
 - 📊**Estadísticas Avanzadas**: Genera estadísticas detalladas sobre libros y autores, incluyendo número de descargas y edad de los autores en diversos contextos.
 - 📝**Listados Personalizados**: Muestra autores vivos en un año determinado y permite filtrar autores por rango fecha de nacimiento.
 - ✅**Validación de Datos de Entrada**: Asegura que los datos ingresados sean correctos y previene errores con un flujo de control robusto.
 - 🚀**Optimización en la Consulta de Datos**: Uso de *Derived Queries* y métodos de resumen para optimizar el rendimiento y precisión en las estadísticas.
-***
-## 🛠️ Tecnologías Utilizadas
+##
+## 🛠️Tecnologías Utilizadas
 
 - **Java 17**: Lenguaje de programación.
 - **Spring Boot**: Framework para crear aplicaciones basadas en Spring.
 - **PostgreSQL**: Base de datos relacional utilizada para almacenar información de libros y autores.
 - **Hibernate**: Para la gestión de persistencia y mapeo de objetos relacionales (ORM).
 - **DoubleSummaryStatistics**: Utilizado para obtener estadísticas detalladas de valores numéricos.
-***
-## 🛠️ Instalación y Configuración
+##
+## 🛠️Instalación y Configuración
 
-### ⚙️ Requisitos Previos
+### ⚙️Requisitos Previos
 - Java 17 o superior.
 - PostgreSQL con una base de datos configurada para el proyecto (ver archivo `application.properties`).
 - IntelliJ IDEA (recomendado) o cualquier IDE compatible con Java y Spring Boot.
 
-### 🔧 Configuración
+### 🔧Configuración
 1. Clona este repositorio.
 2. Configura los detalles de la base de datos en `src/main/resources/application.properties`:
    ```properties
@@ -58,10 +57,10 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
 3. Ejecuta la aplicación desde tu IDE o desde la línea de comandos:
    ```bash
    ./mvnw spring-boot:run
-***
-## 📖 Guía de Uso
+##
+## 📖Guía de Uso
 
-### 📝 Menú Principal
+### 📝Menú Principal
 Una vez iniciada la aplicación, se muestra un menú interactivo en la consola:
 ```markdown
 **************************************************
@@ -80,8 +79,8 @@ Una vez iniciada la aplicación, se muestra un menú interactivo en la consola:
 9 - Estadísticas
 0 - Salir
 ```
-***
-### 🚀 Funcionalidades
+##
+### 🚀Funcionalidades
 1. **Buscar Libro por Título**: Realiza una búsqueda por coincidencia parcial del título en la API de Gutendex, luego la persiste en la base de datos.
 2. **Listar Libros Registrados**: Muestra una lista de todos los libros en el catálogo.
 3. **Listar Autores Registrados**: Muestra una lista de autores junto con sus datos relevantes.
@@ -91,9 +90,9 @@ Una vez iniciada la aplicación, se muestra un menú interactivo en la consola:
 7. **Listar Autores por Fechas**: Filtra autores nacidos dentro de un rango de años específico.
 8. **Top 10 Libros Más Descargados**: Muestra los 10 libros más descargados, ordenados de mayor a menor.
 9. **Estadísticas**: Genera estadísticas de descargas y edades de los autores en función de sus fechas de nacimiento y fallecimiento.
-***
-## 📊 Consultas y Métodos Destacados
-### 📈 Estadísticas
+##
+## 📊Consultas y Métodos Destacados
+### 📈Estadísticas
 Se utilizan métodos avanzados de Java, como `DoubleSummaryStatistics`, para analizar y resumir datos relevantes, como el número de descargas y la edad de los autores. Ejemplo de uso:
 
 ```java
@@ -117,7 +116,7 @@ private void mostrarEstadisticasDescargasLibros() {
 }
 ```
 
-### 📚 Top 10 Libros Más Descargados
+### 📚Top 10 Libros Más Descargados
 Consulta eficiente en la base de datos para obtener los libros más descargados:
 
 ```java
@@ -125,7 +124,7 @@ Consulta eficiente en la base de datos para obtener los libros más descargados:
 List<Libro> findTop10ByOrderByNumeroDeDescargasDesc();
 ```
 
-### ✅ Filtros y Validaciones
+### ✅Filtros y Validaciones
 1. **Validación de Año con 4 Dígitos**: Garantiza que los años ingresados sean válidos mediante el método `validarAnio4Digitos`.
 ```java
 private boolean validarAnio4Digitos(String anio) {
@@ -139,11 +138,11 @@ return anio.matches("\\d{4}");
 @EntityGraph(attributePaths = "librosDelAutor")
 List<Autor> findByFechaNacimientoBetween(String inicio, String fin );
 ```
-***
+##
 ¡Gracias por explorar LiterAlura! Esperamos que esta herramienta enriquezca tu experiencia literaria.
 
 Usa el código con precaución. 🚀
-***
+##
 ### 👨‍💻Autor: Alberto Vallecillo
 <a href="https://linkedin.com/in/alberto-vallecillo" target="_blank">
 <img src="linkedin.svg" alt=linkedin style="margin-bottom: 5px;" />
@@ -151,4 +150,4 @@ Usa el código con precaución. 🚀
 <img src="github.svg" alt=github style="margin-bottom: 5px;" />
 </a>
 
-***
+##
