@@ -105,7 +105,7 @@ public class Principal {
     }
 
 
-    // Encuentra el primer titulo con el que se busca
+    // Encuentra el primer título con el que se busca
     private void buscarLibroPorTitulo() {
         DatosLibros datosLibros = getDatosLibros();
 

@@ -1,10 +1,10 @@
 <p align="center">
-<img src="LiterAlura.png" alt="LiterAlura Banner">
+<img src="img/LiterAlura.png" alt="LiterAlura Banner">
 </p>
 
 **LiterAlura** es una aplicación en Java para gestionar y consultar un catálogo de autores y libros. La aplicación permite realizar **búsquedas avanzadas, generar estadísticas detalladas** y explorar una base de datos con autores y libros. Su objetivo es brindar una experiencia enriquecedora en la administración y consulta de contenido literario.
 
-La aplicación utiliza la API de [Gutendex](https://gutendex.com/ "API para libros de dominio público") 📜, para obtener datos de libros de dominio público, maneja respuestas en formato JSON, y permite persistir estos datos en una base de datos PostgreSQL, desde la que luego podemos realizar diversas consultas para mostrar todo lo relacionado a Libros y Autores.
+La aplicación utiliza la API de [Gutendex](https://gutendex.com/ "API para libros de dominio público") 📜, para obtener datos de libros de dominio público, maneja respuestas en formato JSON, y permite persistir estos datos en una base de datos PostgreSQL, desde la que luego podemos realizar diversas consultas para mostrar todo lo relacionado con Libros y Autores.
 
 Los resultados se filtran y muestran en la consola de manera interactiva.
 
@@ -25,7 +25,7 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
 ## ✨Características
 
 - 🔍**Búsqueda y Registro de Libros por Título**: Consulta a la API de [Gutendex](https://gutendex.com/ "API para libros de dominio público") 📜 para buscar libros por título. Al encontrar un libro, lo registra y almacena en la base de datos, evitando duplicados al verificar previamente su existencia. Si el libro ya está registrado, muestra su información junto con un mensaje indicando que ya estaba en el catálogo.
-- 📚**Búsqueda de Libros por Título y por Idioma**: Busca libros usando consultas directas en la base de datos. Filtra libros por idioma en la base de datos. Los idiomas deben ingresarse en formato ISO 639-1 (ej., es para español)..
+- 📚**Búsqueda de Libros por Título y por Idioma**: Busca libros usando consultas directas en la base de datos. Filtra libros por idioma en la base de datos. Los idiomas deben ingresarse en formato ISO 639-1 (ej., es para español).
 - ✒️**Búsqueda de Autores por Nombre**: Encuentra autores rápidamente mediante consultas en la base de datos.
 - 📊**Estadísticas Avanzadas**: Genera estadísticas detalladas sobre libros y autores, incluyendo número de descargas y edad de los autores en diversos contextos.
 - 📝**Listados Personalizados**: Muestra autores vivos en un año determinado y permite filtrar autores por rango fecha de nacimiento.
@@ -78,18 +78,67 @@ Una vez iniciada la aplicación, se muestra un menú interactivo en la consola:
 8 - Top 10 libros más descargados
 9 - Estadísticas
 0 - Salir
+
+Opcion:
 ```
 ##
 ### 🚀Funcionalidades
 1. **Buscar Libro por Título**: Realiza una búsqueda por coincidencia parcial del título en la API de Gutendex, luego la persiste en la base de datos.
+
+<div style="display: flex; justify-content: center;">
+<img src="img/Opcion1LibroNuevo.png" alt="Buscar Libro Nuevo" style="width: 450px">
+<img src="img/Opcion1LibroExiste.png" alt="Buscar Libro Existente" style="width: 450px">
+<img src="img/Opcion1NoEncontrado.png" alt="Buscar Libro no encontrado" style="width: 450px">
+</div>
+
 2. **Listar Libros Registrados**: Muestra una lista de todos los libros en el catálogo.
+
+<p align="center">
+<img src="img/Opcion2LibrosRegistrados.png" alt="Lista Libros registrados" style="width: 600px">
+</p>
+
 3. **Listar Autores Registrados**: Muestra una lista de autores junto con sus datos relevantes.
+
+<p align="center">
+<img src="img/Opcion3AutoresRegistrados.png" alt="Lista Autores registrados" style="width: 600px">
+</p>
+
 4. **Listar Autores vivos en un determinado año**: Permite al usuario ingresar un año y ver autores que aún vivían en esa fecha, basándose en la fecha de nacimiento y fallecimiento registrada.
+
+<p align="center">
+<img src="img/Opcion4AutoresVivos.png" alt="Lista Autores Vivos en un determinado año" style="width: 600px">
+</p>
+
 5. **Listar Libros por Idioma**: Muestra libros disponibles en un idioma específico. Los idiomas deben ingresarse en formato ISO 639-1 (ej., es para español).
+
+<p align="center">
+<img src="img/Opcion5LibrosIdioma.png" alt="Buscar Libro por Idioma" style="width: 600px">
+</p>
+
 6. **Buscar Autor por Nombre**: Realiza una búsqueda exacta por el nombre del autor.
+
+<p align="center">
+<img src="img/Opcion6AutorNombre.png" alt="Buscar Autor por nombre" style="width: 600px">
+</p>
+
 7. **Listar Autores por Fechas**: Filtra autores nacidos dentro de un rango de años específico.
+
+<p align="center">
+<img src="img/Opcion7AutoresRango.png" alt="Buscar Autor por rango de fecha nacimiento" style="width: 600px">
+</p>
+
 8. **Top 10 Libros Más Descargados**: Muestra los 10 libros más descargados, ordenados de mayor a menor.
+
+<p align="center">
+<img src="img/Opcion8TopLibros.png" alt="Top 10 Libros mas descargados" style="width: 600px">
+</p>
+
 9. **Estadísticas**: Genera estadísticas de descargas y edades de los autores en función de sus fechas de nacimiento y fallecimiento.
+
+<p align="center">
+<img src="img/Opcion9Estadisticas.png" alt="Estadísticas" style="width: 600px">
+</p>
+
 ##
 ## 📊Consultas y Métodos Destacados
 ### 📈Estadísticas
@@ -139,15 +188,16 @@ return anio.matches("\\d{4}");
 List<Autor> findByFechaNacimientoBetween(String inicio, String fin );
 ```
 ##
-¡Gracias por explorar LiterAlura! Esperamos que esta herramienta enriquezca tu experiencia literaria.
+¡Gracias por explorar LiterAlura! Espero que esta herramienta enriquezca tu experiencia literaria.
 
 Usa el código con precaución. 🚀
 ##
 ### 👨‍💻Autor: Alberto Vallecillo
+<div style="display: flex; justify-content: flex-start;">
 <a href="https://linkedin.com/in/alberto-vallecillo" target="_blank">
-<img src="linkedin.svg" alt=linkedin style="margin-bottom: 5px;" />
-</a><a href="https://github.com/Alb3rtoGitHub" target="_blank">
-<img src="github.svg" alt=github style="margin-bottom: 5px;" />
+<img src="img/linkedin.svg" alt=linkedin style="margin-bottom: 5px;" />
 </a>
-
-##
+<a href="https://github.com/Alb3rtoGitHub" target="_blank">
+<img src="img/github.svg" alt=github style="margin-bottom: 5px;" />
+</a>
+</div>
