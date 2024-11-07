@@ -224,7 +224,8 @@ public class Principal {
     }
 
     private void listarLibrosRegistrados() {
-        libros = libroRepository.findAllWithAutores();
+        libros = libroRepository.findAllWithAutores(); // uso una de las dos formas del LibroRepository
+//        libros = libroRepository.findAll();
 
         if (libros.isEmpty()) {
             System.out.println("""
@@ -246,6 +247,7 @@ public class Principal {
 
     private void listarAutoresRegistrados() {
         autores = autorRepository.findAllWithLibros();
+//        autores = autorRepository.findAll();
 
         if (autores.isEmpty()) {
             System.out.println("""
