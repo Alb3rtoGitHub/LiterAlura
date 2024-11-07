@@ -2,7 +2,7 @@
 <img src="img/LiterAlura.png" alt="LiterAlura Banner">
 </p>
 
-**LiterAlura** es una aplicación en Java para gestionar y consultar un catálogo de autores y libros. La aplicación permite realizar **búsquedas avanzadas, generar estadísticas detalladas** y explorar una base de datos con autores y libros. Su objetivo es brindar una experiencia enriquecedora en la administración y consulta de contenido literario.
+**LiterAlura** es una aplicación en Java para gestionar y consultar un catálogo de autores y libros. La aplicación permite realizar **búsquedas avanzadas, generar estadísticas y explorar** una base de datos con autores y libros. Su objetivo es brindar una experiencia enriquecedora en la administración y consulta de contenido literario.
 
 La aplicación utiliza la API de [Gutendex](https://gutendex.com/ "API para libros de dominio público") 📜, para obtener datos de libros de dominio público, maneja respuestas en formato JSON, y permite persistir estos datos en una base de datos PostgreSQL, desde la que luego podemos realizar diversas consultas para mostrar todo lo relacionado con Libros y Autores.
 
@@ -32,6 +32,7 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
 - ✅**Validación de Datos de Entrada**: Asegura que los datos ingresados sean correctos y previene errores con un flujo de control robusto.
 - 🚀**Optimización en la Consulta de Datos**: Uso de *Derived Queries* y métodos de resumen para optimizar el rendimiento y precisión en las estadísticas.
 ##
+
 ## 🛠️Tecnologías Utilizadas
 
 - **Java 17**: Lenguaje de programación.
@@ -40,6 +41,7 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
 - **Hibernate**: Para la gestión de persistencia y mapeo de objetos relacionales (ORM).
 - **DoubleSummaryStatistics**: Utilizado para obtener estadísticas detalladas de valores numéricos.
 ##
+
 ## 🛠️Instalación y Configuración
 
 ### ⚙️Requisitos Previos
@@ -115,7 +117,7 @@ Opcion:
 <img src="img/Opcion5LibrosIdioma.png" alt="Buscar Libro por Idioma" style="width: 600px">
 </p>
 
-6. **Buscar Autor por Nombre**: Realiza una búsqueda exacta por el nombre del autor.
+6. **Buscar Autor por Nombre**: Realiza una búsqueda por el nombre del autor (o que incluya su nombre parcial).
 
 <p align="center">
 <img src="img/Opcion6AutorNombre.png" alt="Buscar Autor por nombre" style="width: 600px">
