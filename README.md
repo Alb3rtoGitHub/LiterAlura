@@ -1,5 +1,5 @@
 <p align="center">
-<img src="img/LiterAlura.png" alt="LiterAlura Banner">
+<img src="img/LiterAlura.png" alt="LiterAlura Banner" style="width: 600px">
 </p>
 
 **LiterAlura** es una aplicación en Java para gestionar y consultar un catálogo de autores y libros. La aplicación permite realizar **búsquedas avanzadas, generar estadísticas y explorar** una base de datos con autores y libros. Su objetivo es brindar una experiencia enriquecedora en la administración y consulta de contenido literario.
@@ -8,11 +8,15 @@ La aplicación utiliza la API de [Gutendex](https://gutendex.com/ "API para libr
 
 Los resultados se filtran y muestran en la consola de manera interactiva.
 
+<p align="center">
+<img src="img/badge literalura.png" alt="Insignia Challenge LiterAlura" style="width: 400px">
+</p>
+
 ##
 ## 📑Tabla de Contenidos
 - [Características](#características)
-- [Tecnologías Utilizadas](#tecnologías-utilizadas)
-- [Instalación y Configuración](#instalación-y-configuración)
+- [Tecnologías Utilizadas](tecnologías-utilizadas)
+- [Instalación y Configuración](instalación-y-configuración)
 - [Guía de Uso](#guía-de-uso)
     - [Menú Principal](#menú-principal)
     - [Funcionalidades](#funcionalidades)
@@ -21,6 +25,7 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
     - [Top 10 Libros Más Descargados](#top-10-libros-más-descargados)
     - [Filtros y Validaciones](#filtros-y-validaciones)
 - [Autor](#autor-alberto-vallecillo)
+
 ##
 ## ✨Características
 
@@ -53,10 +58,12 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
 1. Clona este repositorio.
 2. Configura los detalles de la base de datos en `src/main/resources/application.properties`:
    ```properties
-   spring.datasource.url=jdbc:postgresql://tu_localhost:tu_Port/literalura
+   spring.datasource.url=jdbc:postgresql://tu_localhost:tu_Port/tu_nombre_Base_Datos
    spring.datasource.username=tu_usuario
    spring.datasource.password=tu_contraseña
-3. Ejecuta la aplicación desde tu IDE o desde la línea de comandos:
+3. Crea una base de datos en PostgreSQL (en mi caso utilicé la versión 17) en mi caso la nombre literalura
+4. Paso siguiente puedes probar con la Base de Datos del archivo `literalura.sql` de este repositorio, que ya tiene datos para utilizar y para ello, deberás hacer un Restaurar desde pgAdmin 4 por ejemplo, desde donde hayas descargado el archivo `literalura.sql`. Si no, ejecuta la aplicacion desde tu IDE y empieza a llenar tu propia base de datos.
+5. Ejecuta la aplicación desde tu IDE o desde la línea de comandos:
    ```bash
    ./mvnw spring-boot:run
 ##
