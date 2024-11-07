@@ -29,9 +29,15 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
 
 ## ✨Características
 
-🔍**Búsqueda y Registro de Libros por Título**: Consulta a la API de [Gutendex](https://gutendex.com/ "API para libros de dominio público") 📜 para buscar libros por título. Al encontrar un libro, lo registra y almacena en la base de datos, evitando duplicados al verificar previamente su existencia. Si el libro ya está registrado, muestra su información junto con un mensaje indicando que ya estaba en el catálogo.📚**Búsqueda de Libros por Título y por Idioma**: Busca libros usando consultas directas en la base de datos. Filtra libros por idioma en la base de datos. Los idiomas deben ingresarse en formato ISO 639-1 (ej., es para español).✒️**Búsqueda de Autores por Nombre**: Encuentra autores rápidamente mediante consultas en la base de datos.📊**Estadísticas Avanzadas**: Genera estadísticas detalladas sobre libros y autores, incluyendo número de descargas y edad de los autores en diversos contextos.📝**Listados Personalizados**: Muestra autores vivos en un año determinado y permite filtrar autores por rango fecha de nacimiento.✅**Validación de Datos de Entrada**: Asegura que los datos ingresados sean correctos y previene errores con un flujo de control robusto.🚀**Optimización en la Consulta de Datos**: Uso de *Derived Queries* y métodos de resumen para optimizar el rendimiento y precisión en las estadísticas.
+- 🔍**Búsqueda y Registro de Libros por Título**: Consulta a la API de [Gutendex](https://gutendex.com/ "API para libros de dominio público") para buscar libros por título. Al encontrar un libro, lo registra y almacena en la base de datos, evitando duplicados al verificar previamente su existencia. Si el libro ya está registrado, muestra su información junto con un mensaje indicando que ya estaba en el catálogo.
+- 📚**Búsqueda de Libros por Título y por Idioma**: Busca libros usando consultas directas en la base de datos. Filtra libros por idioma en la base de datos. Los idiomas deben ingresarse en formato ISO 639-1 (ej., es para español).
+- ✒️**Búsqueda de Autores por Nombre**: Encuentra autores rápidamente mediante consultas en la base de datos.
+- 📊**Estadísticas Avanzadas**: Genera estadísticas detalladas sobre libros y autores, incluyendo número de descargas y edad de los autores en diversos contextos.
+- 📝**Listados Personalizados**: Muestra autores vivos en un año determinado y permite filtrar autores por rango fecha de nacimiento.
+- ✅**Validación de Datos de Entrada**: Asegura que los datos ingresados sean correctos y previene errores con un flujo de control robusto.
+- 🚀**Optimización en la Consulta de Datos**: Uso de *Derived Queries* y métodos de resumen para optimizar el rendimiento y precisión en las estadísticas.
 
-🛠️Tecnologías Utilizadas
+## 🛠️Tecnologías Utilizadas
 
 - **Java 17**: Lenguaje de programación.
 - **Spring Boot**: Framework para crear aplicaciones basadas en Spring.
@@ -49,20 +55,26 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
 ### 🔧Configuración
 1. Clona este repositorio.
 2. Configura los detalles de la base de datos en `src/main/resources/application.properties`:
+
    ```properties
    spring.datasource.url=jdbc:postgresql://tu_localhost:tu_Port/tu_nombre_Base_Datos
    spring.datasource.username=tu_usuario
    spring.datasource.password=tu_contraseña
-3. Crea una base de datos en PostgreSQL (en mi caso utilicé la versión 17) en mi caso la nombre literalura
-4. Paso siguiente puedes probar con la Base de Datos del archivo `literalura.sql` de este repositorio, que ya tiene datos para utilizar y para ello, deberás hacer un Restaurar desde pgAdmin 4 por ejemplo, desde donde hayas descargado el archivo `literalura.sql`. Si no, ejecuta la aplicacion desde tu IDE y empieza a llenar tu propia base de datos.
-5. Ejecuta la aplicación desde tu IDE o desde la línea de comandos:
+   ```
+   
+4. Crea una base de datos en PostgreSQL (en mi caso utilicé la versión 17) en mi caso la nombre literalura
+5. Paso siguiente puedes probar con la Base de Datos del archivo `literalura.sql` de este repositorio, que ya tiene datos para utilizar y para ello, deberás hacer un Restaurar desde pgAdmin 4 por ejemplo, desde donde hayas descargado el archivo `literalura.sql`. Si no, ejecuta la aplicacion desde tu IDE y empieza a llenar tu propia base de datos.
+6. Ejecuta la aplicación desde tu IDE o desde la línea de comandos:
+
    ```bash
    ./mvnw spring-boot:run
+   ```
 
 ## 📖Guía de Uso
 
 ### 📝Menú Principal
 Una vez iniciada la aplicación, se muestra un menú interactivo en la consola:
+
 ```markdown
 **************************************************
 *                 ~ LITERALURA ~                 *
