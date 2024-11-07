@@ -31,8 +31,8 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
 - 📝**Listados Personalizados**: Muestra autores vivos en un año determinado y permite filtrar autores por rango fecha de nacimiento.
 - ✅**Validación de Datos de Entrada**: Asegura que los datos ingresados sean correctos y previene errores con un flujo de control robusto.
 - 🚀**Optimización en la Consulta de Datos**: Uso de *Derived Queries* y métodos de resumen para optimizar el rendimiento y precisión en las estadísticas.
-##
 
+##
 ## 🛠️Tecnologías Utilizadas
 
 - **Java 17**: Lenguaje de programación.
