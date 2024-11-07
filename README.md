@@ -8,11 +8,12 @@ La aplicación utiliza la API de [Gutendex](https://gutendex.com/ "API para libr
 
 Los resultados se filtran y muestran en la consola de manera interactiva.
 
+## 📚Insignia Challenge LiterAlura
+
 <p align="center">
 <img src="img/badge literalura.png" alt="Insignia Challenge LiterAlura" style="width: 400px">
 </p>
 
-##
 ## 📑Tabla de Contenidos
 - [Características](#características)
 - [Tecnologías Utilizadas](#tecnologías-utilizadas)
@@ -26,7 +27,6 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
     - [Filtros y Validaciones](#filtros-y-validaciones)
 - [Autor](#autor-alberto-vallecillo)
 
-##
 ## ✨Características
 
 - 🔍**Búsqueda y Registro de Libros por Título**: Consulta a la API de [Gutendex](https://gutendex.com/ "API para libros de dominio público") 📜 para buscar libros por título. Al encontrar un libro, lo registra y almacena en la base de datos, evitando duplicados al verificar previamente su existencia. Si el libro ya está registrado, muestra su información junto con un mensaje indicando que ya estaba en el catálogo.
@@ -37,7 +37,6 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
 - ✅**Validación de Datos de Entrada**: Asegura que los datos ingresados sean correctos y previene errores con un flujo de control robusto.
 - 🚀**Optimización en la Consulta de Datos**: Uso de *Derived Queries* y métodos de resumen para optimizar el rendimiento y precisión en las estadísticas.
 
-##
 ## 🛠️Tecnologías Utilizadas
 
 - **Java 17**: Lenguaje de programación.
@@ -45,7 +44,6 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
 - **PostgreSQL**: Base de datos relacional utilizada para almacenar información de libros y autores.
 - **Hibernate**: Para la gestión de persistencia y mapeo de objetos relacionales (ORM).
 - **DoubleSummaryStatistics**: Utilizado para obtener estadísticas detalladas de valores numéricos.
-##
 
 ## 🛠️Instalación y Configuración
 
@@ -66,7 +64,7 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
 5. Ejecuta la aplicación desde tu IDE o desde la línea de comandos:
    ```bash
    ./mvnw spring-boot:run
-##
+
 ## 📖Guía de Uso
 
 ### 📝Menú Principal
@@ -90,7 +88,7 @@ Una vez iniciada la aplicación, se muestra un menú interactivo en la consola:
 
 Opcion:
 ```
-##
+
 ### 🚀Funcionalidades
 1. **Buscar Libro por Título**: Realiza una búsqueda por coincidencia parcial del título en la API de Gutendex, luego la persiste en la base de datos.
 
@@ -148,7 +146,6 @@ Opcion:
 <img src="img/Opcion9Estadisticas.png" alt="Estadísticas" style="width: 600px">
 </p>
 
-##
 ## 📊Consultas y Métodos Destacados
 ### 📈Estadísticas
 Se utilizan métodos avanzados de Java, como `DoubleSummaryStatistics`, para analizar y resumir datos relevantes, como el número de descargas y la edad de los autores. Ejemplo de uso:
@@ -196,11 +193,10 @@ return anio.matches("\\d{4}");
 @EntityGraph(attributePaths = "librosDelAutor")
 List<Autor> findByFechaNacimientoBetween(String inicio, String fin );
 ```
-##
 ¡Gracias por explorar LiterAlura! Espero que esta herramienta enriquezca tu experiencia literaria.
 
 Usa el código con precaución. 🚀
-##
+
 ### 👨‍💻Autor: Alberto Vallecillo
 <div style="display: flex; justify-content: flex-start;">
 <a href="https://linkedin.com/in/alberto-vallecillo" target="_blank">
