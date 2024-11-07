@@ -11,8 +11,10 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
 ##
 ## 📑Tabla de Contenidos
 - [Características](#características)
-- [Tecnologías Utilizadas](#tecnologías-utilizadas)
-- [Instalación y Configuración](#instalación-y-configuración)
+
+[//]: # (- [Tecnologías Utilizadas]&#40;#tecnologías-utilizadas&#41;)
+
+[//]: # (- [Instalación y Configuración]&#40;#instalación-y-configuración&#41;)
 - [Guía de Uso](#guía-de-uso)
     - [Menú Principal](#menú-principal)
     - [Funcionalidades](#funcionalidades)
