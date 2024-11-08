@@ -11,7 +11,7 @@ Los resultados se filtran y muestran en la consola de manera interactiva.
 ## 📚Insignia Challenge LiterAlura
 
 <p align="center">
-<img src="img/badge literalura.png" alt="Insignia Challenge LiterAlura" style="width: 400px">
+<img src="img/badge literalura.png" alt="Insignia Challenge LiterAlura" style="width: 500px">
 </p>
 
 ## 📑Tabla de Contenidos
